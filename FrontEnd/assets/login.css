@@ -96,13 +96,18 @@ margin: auto;
 	border-radius: 60px ;
 }
 
-.passwordForget {
-    background-color: white;
-    box-shadow: none;
+a {
+    text-align: center;
+    color: black;
 }
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+#span {
+    display: none;
+    text-align: center;
 }
