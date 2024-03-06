@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<script src="https://kit.fontawesome.com/9acf5e4f74.js" crossorigin="anonymous"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
@@ -17,7 +18,8 @@
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li><a href="login.html">login</a></li>
+			<li id="navLogin"><a href="login.html">login</a></li>
+			<li id="navLogout"><a href="login.html">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -34,6 +36,8 @@
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
 	</section>
+
+<!----------------------------------------------------MODAL-------------------------------------------------------->
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
 		<a href="#modal1" class="jsModal">Modifier</a>
@@ -42,11 +46,44 @@
 			<div class="modalWrapper jsModalStop">
 				<button class="jsModalClose">X</button>
 				<h1 id="titleModal">Galerie photo</h1>
-				<div class="delectProject">
+				<div class="deletProject">
 
 				</div>
 				<button class="buttonAddPicture">Ajouter une photo</button>
 			</div>
+<!----------------------------------------------------MODAL2------------------------------------------------------->
+			<div class="modalWrapper2 jsModalStop">
+				<div class="towButton">
+					<button class="returnModal1">-</button>
+					<button class="jsModalClose">X</button>
+				</div>
+				<h1 id="titleModal">Ajout Photo</h1>
+				<div class="divAddPicture">
+					<form action="" class="addForm" name="project">
+						<div class="divAddFile">
+							<label for="file">
+								<!--ajouter la photo-->
+								<span>+ Ajouter photo</span>
+							</label>
+							<input class="file" type="file" name="image" accept="image/png, image/jpeg" />
+							<p>jpg, png : 4mo max</p>
+						</div>
+						<label for="text">Titre</label>
+						<input type="text" name="title" class="addTitle">
+						<p class="paragraphCategory">
+							<label for="category">Catégories</label><br>
+							<select name="category" class="addCategory">
+								<option value=""></option>
+								<option value="Objets">Objets</option>
+								<option value="Appartements">Appartements</option>
+								<option value="Hôtels & restaurants">Hôtels & restaurants</option>
+							</select>
+						</p>
+						<button type="submit" class="buttonAddPicture">Valider</button>
+					</form>
+				</div>
+			</div>
+<!----------------------------------------------------PROJETS------------------------------------------------------->
 		</aside>
 
 		<div class="filters">

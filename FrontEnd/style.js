@@ -4,7 +4,7 @@ const filters = document.querySelector(".filters");
 async function getApiWork(filter=0) {
     const reponse = await fetch('http://localhost:5678/api/works');
     const data = await reponse.json();
-    gallery.innerHTML = ""
+    gallery.innerHTML = ""                      // dés qu'on va rappeler l'api, tous va ce supprimer 
     if (filter==0) {
         data.forEach((element) => {
             let figure = appendElement(element);
@@ -34,8 +34,6 @@ async function getApiCategories() {
 
 getApiWork()
 getApiCategories()
-
-let i = 0
 
 function appendElement(element) {
     let figure = document.createElement("figure");
@@ -70,15 +68,6 @@ function appendCategories(element) {
     return button 
 }
 
-function filterByCategories(filters) {
-    console.log(filters)
-    
-}
-
-function filter(element) {
-    console.log(element)
-}
-
 /**************************************MODAL********************************************/
 
 let modal = null
@@ -98,7 +87,7 @@ const openModal = function(e){
 const closeModal = function (e){
     if(modal === null)return
     e.preventDefault()
-    modal.style.display = "none" // afin d'annuler le display none
+    modal.style.display = "none" // afin d'annuler le display null
     modal.setAttribute('aria-hidden','true')
     modal.removeAttribute('aria-modal')
     modal.removeEventListener('click', closeModal)
@@ -121,18 +110,105 @@ window.addEventListener('keydown', function (e){
     }
 })
 
+const auth = JSON.parse(localStorage.getItem('token'));
+if (auth && auth.token) {
+    const navLogin = document.getElementById("navLogin")
+    const navLogout = document.getElementById("navLogout")
+    navLogin.style.display = "none"
+    navLogout.style.display = "block";
+    navLogout.addEventListener("click", function(event){
+        localStorage.removeItem('token')
+        window.location("login.html")
+        //mettre bandeau en haut, afficher le bouton modifier et cacher les filtres categories
+    })
+}
 
-let delectProject = document.querySelector(".delectProject")
+/**************************************DELETE PROJECT********************************************/
 
 
-async function appendPicture() {
+let deletProject = document.querySelector(".deletProject")
+
+
+async function apiGet() {
     const reponse = await fetch('http://localhost:5678/api/works');
     const data = await reponse.json();
     data.forEach(function(e) {
-        let img = document.createElement("img");
-        delectProject.appendChild(img)
-        img.src = e.imageUrl;
+        modalAddElement(e)   
     }
 )}
 
-appendPicture()
+apiGet()
+
+
+function modalAddElement(e) {
+    let divElement = document.createElement("div");
+    let img = document.createElement("img");
+    let buttonDelet = document.createElement("button");
+    deletProject.appendChild(divElement);
+    divElement.appendChild(img);
+    divElement.appendChild(buttonDelet);
+    img.src = e.imageUrl;
+    buttonDelet.innerText = "X";
+    delet(buttonDelet, e)
+}
+
+function delet(button, e) {
+    button.addEventListener("click", function(){ 
+        const text = "Etes vous sur de vouloir supprimer ce projet ?"
+        if (confirm(text) == true) {
+            fetch("http://localhost:5678/api/works/" + e.id, {
+                method: "DELETE",
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': "Bearer " + auth.token,          // autentification 
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response)=> response.json())
+            .then(res => console.log(res))
+        }
+    })
+}
+
+/**************************************APPEND PROJECT********************************************/
+
+let boutonAddPicture = document.querySelector(".buttonAddPicture")
+let buttonReturn = document.querySelector(".returnModal1")
+let modalWrapper1 = document.querySelector(".modalWrapper")
+let modalWrapper2 = document.querySelector(".modalWrapper2")
+
+boutonAddPicture.addEventListener ("click", function(){
+    modalWrapper1.style.display = "none"
+    modalWrapper2.style.display = "flex"
+})
+
+buttonReturn.addEventListener("click", function() {
+    modalWrapper1.style.display = "flex"
+    modalWrapper2.style.display = "none"
+})
+
+
+let movieForm = document.querySelector(".addForm")
+movieForm.addEventListener("submit",addProject)
+
+function addProject(e){
+    e.preventDefault();
+    const formData = new FormData(movieForm);
+    const image = formData.get("file");
+    const title = formData.get("title");
+    const category = formData.get("categories");
+    const newProject = {image, title, category};
+    console.log(newProject)
+    saveProject(newProject);
+}
+
+function saveProject(project){
+    if (project.image === File || project.title ==="" || project.category ===""){
+        alert("Veuillez rentrer toutes les données")
+    }
+    else {
+        let projects = JSON.parse(localStorage.getItem("projects"));
+        projects = [...projects, project]
+        localStorage.setItem("projects", JSON.stringify(projects))
+    }
+}
