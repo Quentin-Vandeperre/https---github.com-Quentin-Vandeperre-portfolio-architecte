@@ -68,47 +68,10 @@ function appendCategories(element) {
     return button 
 }
 
-/**************************************MODAL********************************************/
+/**************************************LOGIN********************************************/
 
-let modal = null
-
-const openModal = function(e){
-    e.preventDefault()
-    const target = document.querySelector(e.target.getAttribute('href')) // on va donc recuper l'attribut de href soit #modal1
-    target.style.display = null // afin d'annuler le display none
-    target.removeAttribute('aria-hidden')
-    target.setAttribute('aria-modal','true')
-    modal = target
-    modal.addEventListener('click', closeModal)
-    modal.querySelector('.jsModalClose').addEventListener('click', closeModal)
-    modal.querySelector('.jsModalStop').addEventListener('click', stopPropagation)
-}
-
-const closeModal = function (e){
-    if(modal === null)return
-    e.preventDefault()
-    modal.style.display = "none" // afin d'annuler le display null
-    modal.setAttribute('aria-hidden','true')
-    modal.removeAttribute('aria-modal')
-    modal.removeEventListener('click', closeModal)
-    modal.querySelector('.jsModalClose').removeEventListener('click', closeModal)
-    modal.querySelector('.jsModalStop').removeEventListener('click', stopPropagation)
-    modal = null
-}
-
-const stopPropagation = function(e){
-    e.stopPropagation()
-}
-
-document.querySelectorAll(".jsModal").forEach(a=>{
-    a.addEventListener('click', openModal)
-})
-
-window.addEventListener('keydown', function (e){
-    if (e.key === "Escape" || e.key === "Esc") {
-    closeModal(e)
-    }
-})
+const buttonModify = document.querySelector(".jsModal")
+const modeEdition = document.querySelector(".modeEdition")
 
 const auth = JSON.parse(localStorage.getItem('token'));
 if (auth && auth.token) {
@@ -121,94 +84,8 @@ if (auth && auth.token) {
         window.location("login.html")
         //mettre bandeau en haut, afficher le bouton modifier et cacher les filtres categories
     })
+    buttonModify.style.display = "flex"
+    filters.style.display = "none"
+    modeEdition.style.display = "flex"
 }
 
-/**************************************DELETE PROJECT********************************************/
-
-
-let deletProject = document.querySelector(".deletProject")
-
-
-async function apiGet() {
-    const reponse = await fetch('http://localhost:5678/api/works');
-    const data = await reponse.json();
-    data.forEach(function(e) {
-        modalAddElement(e)   
-    }
-)}
-
-apiGet()
-
-
-function modalAddElement(e) {
-    let divElement = document.createElement("div");
-    let img = document.createElement("img");
-    let buttonDelet = document.createElement("button");
-    deletProject.appendChild(divElement);
-    divElement.appendChild(img);
-    divElement.appendChild(buttonDelet);
-    img.src = e.imageUrl;
-    buttonDelet.innerText = "X";
-    delet(buttonDelet, e)
-}
-
-function delet(button, e) {
-    button.addEventListener("click", function(){ 
-        const text = "Etes vous sur de vouloir supprimer ce projet ?"
-        if (confirm(text) == true) {
-            fetch("http://localhost:5678/api/works/" + e.id, {
-                method: "DELETE",
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': "Bearer " + auth.token,          // autentification 
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then((response)=> response.json())
-            .then(res => console.log(res))
-        }
-    })
-}
-
-/**************************************APPEND PROJECT********************************************/
-
-let boutonAddPicture = document.querySelector(".buttonAddPicture")
-let buttonReturn = document.querySelector(".returnModal1")
-let modalWrapper1 = document.querySelector(".modalWrapper")
-let modalWrapper2 = document.querySelector(".modalWrapper2")
-
-boutonAddPicture.addEventListener ("click", function(){
-    modalWrapper1.style.display = "none"
-    modalWrapper2.style.display = "flex"
-})
-
-buttonReturn.addEventListener("click", function() {
-    modalWrapper1.style.display = "flex"
-    modalWrapper2.style.display = "none"
-})
-
-
-let movieForm = document.querySelector(".addForm")
-movieForm.addEventListener("submit",addProject)
-
-function addProject(e){
-    e.preventDefault();
-    const formData = new FormData(movieForm);
-    const image = formData.get("file");
-    const title = formData.get("title");
-    const category = formData.get("categories");
-    const newProject = {image, title, category};
-    console.log(newProject)
-    saveProject(newProject);
-}
-
-function saveProject(project){
-    if (project.image === File || project.title ==="" || project.category ===""){
-        alert("Veuillez rentrer toutes les données")
-    }
-    else {
-        let projects = JSON.parse(localStorage.getItem("projects"));
-        projects = [...projects, project]
-        localStorage.setItem("projects", JSON.stringify(projects))
-    }
-}

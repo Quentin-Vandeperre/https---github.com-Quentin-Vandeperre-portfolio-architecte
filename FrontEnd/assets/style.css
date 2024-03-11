@@ -34,30 +34,58 @@ body {
 ol, ul {
 	list-style: none;
 }
+
+a {
+	text-decoration: none;
+    color: Black;
+}
+
 blockquote, q {
 	quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
 	content: none;
 }
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
 /** end reset css**/
-body {
+header {
 	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
+
+main, section, footer {
+	max-width: 1000px;
+	margin:auto;
+	font-family: 'Work Sans' ;
+	font-size: 14px;
+}
+
+.modeEdition {
+	display: flex;
+	justify-content: center;
+	background-color: #000000;
+	color: white;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	max-width: 1440px;
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin-top: 30px;
+	margin-bottom: 50px;
 }
+
 section {
 	margin: 50px 0
 }
@@ -94,7 +122,7 @@ nav li {
 	font-size: 1.2em;
 }
 
-li:hover {
+li:hover, #navLogout a:hover {
 	color: #B1663C;
 }
 #introduction {
@@ -111,8 +139,9 @@ li:hover {
 }
 
 #introduction article {
-	flex: 1
+	flex: 1;
 }
+
 #introduction h2 {
 	margin-bottom: 1em;
 }
@@ -122,7 +151,7 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
+	
 }
 .gallery {
 	width: 100%;
@@ -193,6 +222,7 @@ footer nav ul {
 .filters {
 	display: flex;
 	justify-content: center;	
+	margin-top: 20px;
 }
 
 .filters button {
@@ -221,140 +251,17 @@ footer nav ul {
 	display: none;
 }
 
-/**************************************MODAL********************************************/
-
-
-
-.modal {
-	position: fixed;
+.divTitleAndButtonModify {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.8);
-}
-
-.modalWrapper, .modalWrapper2{
-	overflow: auto;
-	width: 630px;
-	height: 688px;
-	background-color: white;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.jsModalClose {
-	border: none;
-	background-color: white;
-	margin-top: 30px;
-	margin-bottom: 30px;
 	
 }
 
-#titleModal {
-	font-family: 'Work Sans';
-	font-size: 26px;
+#portfolio h2 {
+	padding-right: 100px;
+	margin-left: 100px;
 	text-align: center;
-	margin-bottom: 50px;
-	color: black;
 }
 
-.deletProject{
-	width: 70%;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	border-bottom: 1px solid #B3B3B3;
-	padding-bottom: 50px;
-}
 
-.deletProject img {
-	width: 76x;
-	height: 102px;
-	margin-bottom: 20px;
-}
-
-.deletProject div {
-	position: relative;
-}
-
-.deletProject button {
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-
-/**************************************MODAL2********************************************/
-
-.modalWrapper2 {
-	display: none;
-}
-
-.returnModal1 {
-	border: none;
-	background-color: white;
-	margin-top: 30px;
-	margin-bottom: 30px;
-	
-}
-
-.towButton {
-	display: flex;
-	justify-content: space-between;
-	width: 90%;
-}
-
-.file {
-	opacity: 0;
-}
-
-.addForm {
-	display: flex;
-	flex-direction: column;
-	
-}
-
-.divAddFile {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 169px;
-	width: 420px;
-	background-color: #E8F1F6;
-	margin-bottom: 30px;
-}
-
-.addTitle, .addCategory{
-	margin-top: 10px;
-	margin-bottom: 20px;
-	height: 51px;
-	width: 420px;
-	border: none;
-	box-shadow: 0px 4px 14px 0 #000000 ;
-}
-
-.paragraphCategory {
-	border-bottom: 1px solid #B3B3B3;
-	padding-bottom: 40px;
-}
-
-.buttonAddPicture {
-	display: flex;
-	justify-content: center;
-	text-align: center;
-	margin-top: 40px;
-	font-family: 'Syne';
-	font-size: 14px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	color: white;
-	background-color: #1D6154;
-	width: 180px;
-	border-radius: 60px ;
-	border: none;
-}
