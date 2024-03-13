@@ -1,5 +1,5 @@
 let modal = null
-
+const auth = JSON.parse(localStorage.getItem('token'));
 const jsModal = document.querySelector(".jsModal")
 const jsModalClose = document.querySelector(".jsModalClose")
 const jsModalClose1 = document.querySelector(".jsModalClose1")
@@ -86,6 +86,7 @@ async function apiGet() {
 
 apiGet()
 
+let trashCan = document.querySelector(".fa-trash-can");
 
 function modalAddElement(e) {
     let divElement = document.createElement("div");
@@ -93,9 +94,9 @@ function modalAddElement(e) {
     let buttonDelet = document.createElement("button");
     deletProject.appendChild(divElement);
     divElement.appendChild(img);
+    buttonDelet.appendChild(trashCan);
     divElement.appendChild(buttonDelet);
     img.src = e.imageUrl;
-    buttonDelet.innerText = "X";
     delet(buttonDelet, e)
 }
 
@@ -120,12 +121,17 @@ function delet(button, e) {
 /**************************************APPEND PROJECT********************************************/
 
 let addCategory = document.querySelector("#addCategory")
+let imgUpdate = document.querySelector("#imgUpdate")
+let file = document.querySelector("#file")
+let divInput = document.querySelector(".divInput")
+
 
 async function getApiCategories() {
     const reponseCategories = await fetch('http://localhost:5678/api/categories');
     const dataCategories = await reponseCategories.json();  
     dataCategories.forEach((element) => {
         let option = document.createElement("option");
+        option.value = element.id
         option.innerText = element.name;  
         addCategory.appendChild(option)
     })
@@ -136,19 +142,28 @@ getApiCategories()
 let movieForm = document.querySelector(".addForm")
 movieForm.addEventListener("submit",addProject)
 
-function addProject(e){
-    e.preventDefault();
-    const formData = new FormData(movieForm);
-    const image = formData.get("image");
-    const title = formData.get("title");
-    const category = formData.get("category");
-    const newProject = {image, title, category};
-    console.log(newProject)
-    saveProject(newProject);
+file.onchange = function(){
+    imgUpdate.style.display = "block"
+    divInput.style.display = "none"
+    imgUpdate.src = URL.createObjectURL(file.files[0]);
 }
 
-function saveProject(project){
-    if (project.image === null || project.title === null || project.category === null){
+
+function addProject(e){
+    e.preventDefault();
+    const title = document.querySelector("#addTitle").value;
+    const category = document.querySelector("#addCategory").value;
+    const file = document.querySelector("#file").files[0];
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("image", file);
+    formData.append("category", category);
+    console.log(formData,title,category,file)
+    saveProject(formData,title,category,file)
+}
+
+function saveProject(project,title,category,file){
+    if (file === undefined || title === "" || category === ""){
         alert("Veuillez rentrer toutes les données")
     }
     else {
@@ -157,8 +172,8 @@ function saveProject(project){
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': "Bearer " + auth.token,          // autentification 
-                    'Content-Type': 'application/json',
                 },
+                body: project
             })
             .then((response)=> response.json())
             .then(res => console.log(res))

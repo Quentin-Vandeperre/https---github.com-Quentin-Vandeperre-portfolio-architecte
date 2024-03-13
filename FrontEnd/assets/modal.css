@@ -10,6 +10,10 @@
 	background: rgba(0, 0, 0, 0.8);
 }
 
+.fa-pen-to-square {
+	margin-right: 20px;
+}
+
 .modalWrapper, .modalWrapper2{
 	overflow: auto;
 	width: 630px;
@@ -20,12 +24,18 @@
 	align-items: center;
 }
 
+.jsModalClose {
+	width: 100%;
+	display: flex;
+	justify-content: end;
+	margin-right: 60px;
+}
+
 .jsModalClose, .jsModalClose1 {
 	border: none;
 	background-color: white;
 	margin-top: 30px;
 	margin-bottom: 30px;
-	
 }
 
 #titleModal {
@@ -61,7 +71,7 @@
 	right: 0;
 }
 
-.buttonModalAddPicture {
+.buttonModalAddPicture, .buttonAddProject {
 	display: flex;
 	justify-content: center;
 	text-align: center;
@@ -79,12 +89,13 @@
 
 /**************************************MODAL2********************************************/
 
+
+
 .returnModal1 {
 	border: none;
 	background-color: white;
 	margin-top: 30px;
 	margin-bottom: 30px;
-	
 }
 
 .towButton {
@@ -95,8 +106,9 @@
 
 .addForm {
 	display: flex;
+	justify-content: center;
+    align-items: center;
 	flex-direction: column;
-	
 }
 
 .divAddFile {
@@ -129,7 +141,6 @@
     position: absolute;
     width: 173px;
     height: 36px;
-    
 }
 
 .divAddFile label {
@@ -140,4 +151,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
+	border-radius: 50px;
+	margin-bottom: 5px;
+}
+
+.fa-image {
+	font-size: 60px;
+	padding-bottom: 10px;
+	color: #B9C5CC;
+}
+
+#imgUpdate {
+	width: 150px;
+	height: 169px;
+	
+}
+
+.divInput {
+	text-align: center;
 }
