@@ -11,6 +11,8 @@ jsModal.addEventListener('click', function(event){
     openModal()
 })
 
+// on ouvre la modal
+
 function openModal() {
     modal1.removeAttribute("aria-hidden")
     modal1.setAttribute("aria-modal", "true")
@@ -21,8 +23,9 @@ function openModal() {
     })
     modal = modal1
     modal.querySelector('.jsModalStop').addEventListener('click', stopPropagation)     // ferme la modale apres le click en dehors de la modale 
-    
 }
+
+//on ferme la modal
 
 function closeModal() {
     if(modal === null)return
@@ -31,6 +34,8 @@ function closeModal() {
     modal.removeAttribute('aria-modal')
     modal = null
 }
+
+//on ouver la deuxieme modal
 
 function openModalPicture() {
     modal1.style.display = "none";
@@ -47,6 +52,8 @@ function openModalPicture() {
 
 const buttonModalAddPicture = document.querySelector(".buttonModalAddPicture")
 
+// lors du click sur le bouton "ajouter une photo" on appelle la fonction pour ouvrir la deuxieme modal
+
 buttonModalAddPicture.addEventListener("click", function(){
     openModalPicture()
 })
@@ -54,6 +61,8 @@ buttonModalAddPicture.addEventListener("click", function(){
 const stopPropagation = function(e){
     e.stopPropagation()
 }
+
+//fermeture de la modal quand l'utilisateur utilise esc
 
 window.addEventListener('keydown', function (e){
     if (e.key === "Escape" || e.key === "Esc") {
@@ -76,6 +85,8 @@ buttonReturn.addEventListener("click", function() {
 let deletProject = document.querySelector(".deletProject")
 
 
+// appelle des projet
+
 async function apiGet() {
     const reponse = await fetch('http://localhost:5678/api/works');
     const data = await reponse.json();
@@ -88,17 +99,24 @@ apiGet()
 
 let trashCan = document.querySelector(".fa-trash-can");
 
+// creation de chaque projet 
+
 function modalAddElement(e) {
     let divElement = document.createElement("div");
     let img = document.createElement("img");
     let buttonDelet = document.createElement("button");
+    let i = document.createElement("i")
+    i.classList.add("fa-trash-can")
+    i.classList.add("fa-solid")
     deletProject.appendChild(divElement);
     divElement.appendChild(img);
-    buttonDelet.appendChild(trashCan);
+    buttonDelet.appendChild(i);
     divElement.appendChild(buttonDelet);
     img.src = e.imageUrl;
     delet(buttonDelet, e)
 }
+
+// lors sur click sur la poubelle, alert, si l'utilisateur valide on envoie la suppression 
 
 function delet(button, e) {
     button.addEventListener("click", function(){ 
@@ -121,10 +139,13 @@ function delet(button, e) {
 /**************************************APPEND PROJECT********************************************/
 
 let addCategory = document.querySelector("#addCategory")
+let addTitle = document.querySelector("#addTitle")
 let imgUpdate = document.querySelector("#imgUpdate")
 let file = document.querySelector("#file")
 let divInput = document.querySelector(".divInput")
 
+
+// fonction qui ajoute les categorie 
 
 async function getApiCategories() {
     const reponseCategories = await fetch('http://localhost:5678/api/categories');
@@ -139,15 +160,19 @@ async function getApiCategories() {
 
 getApiCategories()
 
-let movieForm = document.querySelector(".addForm")
-movieForm.addEventListener("submit",addProject)
+
 
 file.onchange = function(){
     imgUpdate.style.display = "block"
     divInput.style.display = "none"
     imgUpdate.src = URL.createObjectURL(file.files[0]);
+    verifValidityForm()
 }
 
+let movieForm = document.querySelector(".addForm")
+movieForm.addEventListener("submit",addProject)
+
+// enregistre les valeur entré par l'utilisateur 
 
 function addProject(e){
     e.preventDefault();
@@ -158,12 +183,13 @@ function addProject(e){
     formData.append("title", title);
     formData.append("image", file);
     formData.append("category", category);
-    console.log(formData,title,category,file)
-    saveProject(formData,title,category,file)
+    saveProject(formData)
 }
 
-function saveProject(project,title,category,file){
-    if (file === undefined || title === "" || category === ""){
+//fonction qui verifie si tous est rempli, si oui ajoute le nouveau projet 
+
+function saveProject(project){
+    if (verifValidityForm()===false){
         alert("Veuillez rentrer toutes les données")
     }
     else {
@@ -179,3 +205,29 @@ function saveProject(project,title,category,file){
             .then(res => console.log(res))
     }
 }
+
+const submit = document.querySelector(".buttonAddProject")
+
+addCategory.addEventListener("change", (event) =>{
+    verifValidityForm()
+})
+
+addTitle.addEventListener("input", (event) =>{
+    verifValidityForm()
+})  
+
+// fonction qui permet de changer la couleur du boutton valider
+
+function verifValidityForm() {
+    const title = document.querySelector("#addTitle").value;
+    const category = document.querySelector("#addCategory").value;
+    const file = document.querySelector("#file").files[0];
+    if (title != '' && category != '' && file){
+        submit.style.backgroundColor = '#1D6154'
+        return true
+    } else {
+        submit.style.backgroundColor = '#A7A7A7'
+        return false
+    }
+}
+

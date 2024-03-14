@@ -162,20 +162,25 @@ li:hover, #navLogout a:hover {
 }
 
 .gallery img {
-	width: 100%;
+	width: 304px;
+	height: 407px;
 
 }
+
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
+
 #contact > * {
 	text-align: center;
 
 }
+
 #contact h2{
 	margin-bottom: 20px;
 }
+
 #contact form {
 	text-align: left;
 	margin-top:30px;
@@ -189,9 +194,11 @@ margin: auto;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #contact label {
 	margin: 2em 0 1em 0;
 }
+
 #contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -263,5 +270,4 @@ footer nav ul {
 	margin-left: 100px;
 	text-align: center;
 }
-
 

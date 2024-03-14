@@ -82,7 +82,6 @@ if (auth && auth.token) {
     navLogout.addEventListener("click", function(event){
         localStorage.removeItem('token')
         window.location("login.html")
-        //mettre bandeau en haut, afficher le bouton modifier et cacher les filtres categories
     })
     buttonModify.style.display = "flex"
     filters.style.display = "none"
