@@ -1,3 +1,6 @@
+import { getApiWork } from "./style.js";
+
+getApiWork()
 let modal = null
 const auth = JSON.parse(localStorage.getItem('token'));
 const jsModal = document.querySelector(".jsModal")
@@ -77,8 +80,6 @@ buttonReturn.addEventListener("click", function() {
 })
 
 
-
-
 /**************************************DELETE PROJECT********************************************/
 
 
@@ -113,16 +114,17 @@ function modalAddElement(e) {
     buttonDelet.appendChild(i);
     divElement.appendChild(buttonDelet);
     img.src = e.imageUrl;
-    delet(buttonDelet, e)
+    delet(buttonDelet, e, divElement)
 }
 
 // lors sur click sur la poubelle, alert, si l'utilisateur valide on envoie la suppression 
 
-function delet(button, e) {
+function delet(button, e, divElement) {
     button.addEventListener("click", function(){ 
         const text = "Etes vous sur de vouloir supprimer ce projet ?"
         if (confirm(text) == true) {
-            fetch("http://localhost:5678/api/works/" + e.id, {
+            let deletE = e.id
+            fetch("http://localhost:5678/api/works/" + deletE, {
                 method: "DELETE",
                 headers: {
                     'Accept': 'application/json',
@@ -130,8 +132,8 @@ function delet(button, e) {
                     'Content-Type': 'application/json',
                 },
             })
-            .then((response)=> response.json())
-            .then(res => console.log(res))
+            divElement.remove()
+            getApiWork()
         }
     })
 }
@@ -201,8 +203,7 @@ function saveProject(project){
                 },
                 body: project
             })
-            .then((response)=> response.json())
-            .then(res => console.log(res))
+        getApiWork()
     }
 }
 

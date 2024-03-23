@@ -24,7 +24,7 @@ submit.addEventListener("click", function (event) {
         .then((response)=> response.json())
         .then ((data)=> {
             const token = localStorage.setItem('token', JSON.stringify(data));
-            const auth = JSON.parse(localStorage.getItem('token'));
+            const auth = JSON.parse(localStorage.getItem('token'));                 // .parse : converti en objet
             if (auth && auth.token) {
                 window.location = "index.html";
             } else {
