@@ -123,8 +123,7 @@ function delet(button, e, divElement) {
     button.addEventListener("click", function(){ 
         const text = "Etes vous sur de vouloir supprimer ce projet ?"
         if (confirm(text) == true) {
-            let deletE = e.id
-            fetch("http://localhost:5678/api/works/" + deletE, {
+            fetch("http://localhost:5678/api/works/" + e.id, {
                 method: "DELETE",
                 headers: {
                     'Accept': 'application/json',

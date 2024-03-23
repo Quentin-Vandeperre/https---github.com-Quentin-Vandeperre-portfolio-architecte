@@ -1,7 +1,7 @@
 let gallery = document.querySelector(".gallery");
 const filters = document.querySelector(".filters");
 
-async function getApiWork(filter=0) {
+export async function getApiWork(filter=0) {
     const reponse = await fetch('http://localhost:5678/api/works');
     const data = await reponse.json();
     gallery.innerHTML = ""                      // dés qu'on va rappeler l'api, tous va ce supprimer 
