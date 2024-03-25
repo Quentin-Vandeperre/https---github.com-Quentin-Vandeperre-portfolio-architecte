@@ -89,6 +89,7 @@ let deletProject = document.querySelector(".deletProject")
 // appelle des projet
 
 async function apiGet() {
+    deletProject.innerHTML = ""
     const reponse = await fetch('http://localhost:5678/api/works');
     const data = await reponse.json();
     data.forEach(function(e) {
@@ -131,8 +132,8 @@ function delet(button, e, divElement) {
                     'Content-Type': 'application/json',
                 },
             })
-            divElement.remove()
-            getApiWork()
+            .then((response)=> divElement.remove())
+            .then(()=> getApiWork())
         }
     })
 }
@@ -202,7 +203,9 @@ function saveProject(project){
                 },
                 body: project
             })
-        getApiWork()
+        .then(() => closeModal())
+        .then((response)=> getApiWork())
+        .then(()=> apiGet())
     }
 }
 
@@ -230,4 +233,3 @@ function verifValidityForm() {
         return false
     }
 }
-
