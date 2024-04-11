@@ -41,6 +41,10 @@ function closeModal() {
 //on ouver la deuxieme modal
 
 function openModalPicture() {
+    divInput.style.display = "block"
+    imgUpdate.style.display = "none"
+    addCategory.value = ""
+    addTitle.value = ""
     modal1.style.display = "none";
     modal2.removeAttribute('aria-hidden');
     modal2.setAttribute('aria-modal', 'true');
